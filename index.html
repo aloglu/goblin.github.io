@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>goblin modu</title>
+    <meta name="description" content="goblin modu kanalı ile ilgili bilgiler.">
+    <meta name="keywords" content="goblin, modu, goblin modu, goblinmodu, youtube, kick, discord, counter strike, cs2, 7 days to die">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @font-face {
+            font-family: 'Croogla 4F';
+            src: url('fonts/Croogla4F.woff2') format('woff2'),
+                 url('fonts/Croogla4F.woff') format('woff'),
+                 url('fonts/Croogla4F.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            background-color: #1e1317;
+            color: #eceae2;
+            font-family: 'Croogla 4F', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+            margin: 0 10px;
+        }
+
+        .youtube-link { color: #FF0000; }
+        .youtube-link:hover { color: #FF6666; }
+        .kick-link { color: #52E54A; }
+        .kick-link:hover { color: #85F97E; }
+        .discord-link { color: #5865F2; }
+        .discord-link:hover { color: #8F98F9; }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 80px;
+            text-shadow: 0 0 4px #c8221f;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .platform-links {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .game-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .game-box {
+            width: 48%;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+
+        .game-box:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .game-box h2 {
+            font-size: 18px;
+            margin: 0 0 10px;
+            text-align: center;
+        }
+
+        code {
+            display: block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Croogla 4F', 'Courier New', monospace;
+            font-size: 16px;
+            color: #eceae2;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        code:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .copy-feedback {
+            position: absolute;
+            top: -30px;
+            right: 10px;
+            background-color: #52E54A;
+            color: #1e1317;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            z-index: 10;
+        }
+
+        @media (max-width: 600px) {
+            .game-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            .game-box {
+                width: 100%;
+                padding: 15px;
+            }
+            .platform-links {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+            h1 {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>goblin modu</h1>
+        <h2>takip et</h2>
+        <div class="platform-links">
+            <a href="https://www.youtube.com/@GoblinModu" target="_blank" class="youtube-link" aria-label="YouTube">
+                <i class="fab fa-youtube"></i> youtube
+            </a>
+            <a href="https://kick.com/goblinmodu" target="_blank" class="kick-link" aria-label="Kick">
+                <i class="fa-solid fa-rocket"></i> kick
+            </a>
+            <a href="https://discord.com" target="_blank" class="discord-link" aria-label="Discord">
+                <i class="fab fa-discord"></i> discord
+            </a>
+        </div>
+        <h2 style="margin-bottom: 10px;">oyna</h2>
+        <div class="game-section">
+            <div class="game-box">
+                <h2>counter-strike 2</h2>
+                <code id="cs2-code" tabindex="0" aria-label="kopyalamak için tıklayın">connect goblin.noob.club:26259</code>
+            </div>
+            <div class="game-box">
+                <h2>7 days to die</h2>
+                <code id="7dtd-code1" tabindex="0" aria-label="kopyalamak için tıklayın">pypar.dathost.net:18916</code>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('code').forEach(function(codeElement) {
+            codeElement.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    showCopyFeedback(this);
+                });
+            });
+            codeElement.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(this.textContent).then(() => {
+                        showCopyFeedback(this);
+                    });
+                }
+            });
+        });
+
+        function showCopyFeedback(element) {
+            let existingFeedback = element.querySelector('.copy-feedback');
+            if (existingFeedback) {
+                existingFeedback.remove();
+            }
+            let feedback = document.createElement('span');
+            feedback.textContent = 'kopyalandı!';
+            feedback.classList.add('copy-feedback');
+            element.appendChild(feedback);
+            setTimeout(() => feedback.remove(), 2000);
+        }
+    </script>
+</body>
+</html>
