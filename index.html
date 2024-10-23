@@ -1,3 +1,5 @@
+<!-- #DerinGoblin -->
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -175,7 +177,9 @@
             <div class="game-box">
                 <h2>7 days to die</h2>
                 <code id="7dtd-code1" tabindex="0" aria-label="kopyalamak için tıklayın">pypar.dathost.net:18916</code>
-            </div>
+                <div style="margin-top: 10px;"></div> <!-- Add some margin between the code snippets -->
+                <code id="7dtd-code2" tabindex="0" aria-label="kopyalamak için tıklayın">gameModeOn</code>
+            </div>            
         </div>
     </div>
 
@@ -195,18 +199,18 @@
                 }
             });
         });
-
+    
         function showCopyFeedback(element) {
-            let existingFeedback = element.querySelector('.copy-feedback');
-            if (existingFeedback) {
-                existingFeedback.remove();
-            }
-            let feedback = document.createElement('span');
-            feedback.textContent = 'kopyalandı!';
-            feedback.classList.add('copy-feedback');
-            element.appendChild(feedback);
-            setTimeout(() => feedback.remove(), 2000);
+            // Save the original text content
+            const originalText = element.textContent;
+            // Replace with feedback message
+            element.textContent = 'kopyalandı!';
+            // Set a timeout to restore the original text
+            setTimeout(() => {
+                element.textContent = originalText;
+            }, 1000); // 1000 ms = 1 second
         }
     </script>
+    
 </body>
 </html>
