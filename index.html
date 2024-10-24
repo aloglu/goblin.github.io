@@ -83,13 +83,9 @@
 
         .game-box {
             width: 48%;
-            padding: 20px;
+            padding: 10px;
             box-sizing: border-box;
             transition: background-color 0.3s;
-        }
-
-        .game-box:hover {
-            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .game-box h2 {
@@ -203,12 +199,16 @@
         function showCopyFeedback(element) {
             // Save the original text content
             const originalText = element.textContent;
-            // Replace with feedback message
+    
+            // Replace with feedback message and change the background color
             element.textContent = 'kopyalandı!';
-            // Set a timeout to restore the original text
+            element.style.backgroundColor = '#663399';
+    
+            // Set a timeout to restore the original text and background color
             setTimeout(() => {
                 element.textContent = originalText;
-            }, 1000); // 1000 ms = 1 second
+                element.style.backgroundColor = ''; // Revert to original background color (with transition)
+            }, 1200); // 1200 ms for a slightly slower revert
         }
     </script>
     
