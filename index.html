@@ -236,7 +236,11 @@
             goblinImage.style.transition = "transform 0.5s ease, left 0.5s ease, top 0.5s ease";
             document.body.appendChild(goblinImage);
 
+            // Add audio element for cat meow
+            const meowSound = new Audio("sounds/cat-meow.mp3");
             
+            let moveCount = 0;
+
             function moveGoblin() {
                 const maxX = window.innerWidth - 64;
                 const maxY = window.innerHeight - 64;
@@ -248,7 +252,16 @@
                 setTimeout(() => {
                     goblinImage.style.transform = "scale(1)";
                 }, 250);
-                            }
+
+                // Increment move counter
+                moveCount++;
+
+                // Play meow sound after 5 moves
+                if (moveCount >= 5) {
+                    meowSound.play();
+                    moveCount = 0; // Reset counter
+                }
+            }
 
             goblinImage.addEventListener("click", moveGoblin);
             goblinImage.addEventListener("mouseover", moveGoblin);
