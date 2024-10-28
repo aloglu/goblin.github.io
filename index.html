@@ -14,12 +14,13 @@
 
     <style>
         @font-face {
-            font-family: 'Croogla 4F';
+            font-family: 'Croogla4F';
             src: url('fonts/Croogla4F.woff2') format('woff2'),
                  url('fonts/Croogla4F.woff') format('woff'),
                  url('fonts/Croogla4F.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
+            font-display: swap;
         }
 
         body {
@@ -230,8 +231,8 @@
             goblinImage.src = "img/goblin.png";
             goblinImage.alt = "Goblin";
             goblinImage.style.position = "absolute";
-            goblinImage.style.width = "64px";
-            goblinImage.style.height = "64px";
+            goblinImage.style.width = "50px";
+            goblinImage.style.height = "50px";
             goblinImage.style.cursor = "pointer";
             goblinImage.style.transition = "transform 0.5s ease, left 0.5s ease, top 0.5s ease";
             document.body.appendChild(goblinImage);
