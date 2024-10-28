@@ -25,7 +25,7 @@
         body {
             background-color: #1e1317;
             color: #eceae2;
-            font-family: 'Croogla 4F', Arial, sans-serif;
+            font-family: 'Croogla4F', Arial, sans-serif;
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -46,8 +46,8 @@
         .youtube-link:hover { color: #FF6666; }
         .kick-link { color: #52E54A; }
         .kick-link:hover { color: #85F97E; }
-        .instagram-link { color: #e56969; }
-        .instagram-link:hover { color: #e88c8c; }
+        .instagram-link { color: #C13584; }
+        .instagram-link:hover { color: #E1306C; }
         .discord-link { color: #5865F2; }
         .discord-link:hover { color: #8F98F9; }
 
@@ -101,7 +101,7 @@
             background-color: rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 5px;
-            font-family: 'Croogla 4F', 'Courier New', monospace;
+            font-family: 'Croogla4F', 'Courier New', monospace;
             font-size: 16px;
             color: #eceae2;
             cursor: pointer;
@@ -149,7 +149,19 @@
                 font-size: 20px;
             }
         }
-    </style>
+        @keyframes rainbow {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+    .rainbow-text {
+        background-image: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #47ff00, #00ffee, #002bff, #d600ff);
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: rainbow 0.75s linear infinite;
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -202,18 +214,51 @@
         function showCopyFeedback(element) {
             // Save the original text content
             const originalText = element.textContent;
-    
-            // Replace with feedback message and change the background color
-            element.textContent = 'kopyalandı!';
-            element.style.backgroundColor = '#663399';
-    
+
+            // Replace with feedback message and apply rainbow gradient effect
+            element.innerHTML = '<span class="rainbow-text">kopyalandı!</span>';
+            
             // Set a timeout to restore the original text and background color
             setTimeout(() => {
-                element.textContent = originalText;
-                element.style.backgroundColor = ''; // Revert to original background color (with transition)
-            }, 1200); // 1200 ms for a slightly slower revert
+                element.innerHTML = originalText;
+                            }, 1200); // 1200 ms for a slightly slower revert
         }
+
+        // Goblin game script
+        document.addEventListener("DOMContentLoaded", function() {
+            const goblinImage = document.createElement("img");
+            goblinImage.src = "img/goblin.png";
+            goblinImage.alt = "Goblin";
+            goblinImage.style.position = "absolute";
+            goblinImage.style.width = "64px";
+            goblinImage.style.height = "64px";
+            goblinImage.style.cursor = "pointer";
+            goblinImage.style.transition = "transform 0.5s ease, left 0.5s ease, top 0.5s ease";
+            document.body.appendChild(goblinImage);
+
+            
+            function moveGoblin() {
+                const maxX = window.innerWidth - 64;
+                const maxY = window.innerHeight - 64;
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                goblinImage.style.left = `${randomX}px`;
+                goblinImage.style.top = `${randomY}px`;
+                goblinImage.style.transform = "scale(1.2)";
+                setTimeout(() => {
+                    goblinImage.style.transform = "scale(1)";
+                }, 250);
+                            }
+
+            goblinImage.addEventListener("click", moveGoblin);
+            goblinImage.addEventListener("mouseover", moveGoblin);
+
+            // Initial position
+            moveGoblin();
+
+            // Adjust position on window resize
+            window.addEventListener("resize", moveGoblin);
+        });
     </script>
-    
 </body>
 </html>
