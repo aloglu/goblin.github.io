@@ -89,7 +89,7 @@
         }
 
         .game-box {
-            width: 48%;
+            width: 100%;
             box-sizing: border-box;
             transition: background-color 0.3s;
         }
@@ -100,9 +100,15 @@
             text-align: center;
         }
 
+        .ip-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
         code {
             display: block;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #6c45531a;
             padding: 15px;
             border-radius: 5px;
             font-family: 'Croogla4F', 'Courier New', monospace;
@@ -110,25 +116,46 @@
             color: #eceae2;
             cursor: pointer;
             text-align: center;
-            transition: background-color 0.3s;
-            word-wrap: break-word;
-            position: relative;
+            transition: background-color 0.3s, filter 0.3s;
         }
 
-        code:hover {
-            background-color: rgba(255, 255, 255, 0.15);
+        .ip-container:hover code {
+            filter: blur(3px);
         }
 
-        .copy-feedback {
+        .hover-actions {
+            display: none;
             position: absolute;
-            top: -30px;
-            right: 10px;
-            background-color: #52E54A;
-            color: #1e1317;
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            gap: 10px;
+            background: rgba(30, 19, 23, 0.9);
+            padding: 8px 12px;
+            border-radius: 5px;
             z-index: 10;
+        }
+
+        .hover-actions a {
+            color: #de9b35;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s;
+        }
+
+        .hover-actions a:hover {
+            color: #f0d2a3;
+        }
+
+        .hover-actions i {
+            font-size: 16px;
+        }
+
+        .ip-container:hover .hover-actions {
+            display: flex;
         }
 
         @media (max-width: 600px) {
@@ -153,19 +180,7 @@
                 font-size: 20px;
             }
         }
-        @keyframes rainbow {
-        0% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    .rainbow-text {
-        background-image: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #47ff00, #00ffee, #002bff, #d600ff);
-        background-size: 400% 400%;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: rainbow 1.2s linear infinite;
-    }
-</style>
+    </style>
 </head>
 <body>
     <div class="container">
@@ -188,94 +203,29 @@
         <h2>oyna</h2>
         <div class="game-section">
             <div class="game-box">
-                <h2>counter-strike 2</h2>
-                <code id="cs2-code" tabindex="0" aria-label="kopyalamak için tıklayın">connect goblin.noob.club:26259</code>
+                <div class="ip-container">
+                    <code id="cs2-code">Counter-Strike 2</code>
+                    <div class="hover-actions">
+                        <a href="steam://run/730//+connect 156.146.52.209:26360/" target="_blank" aria-label="Play">
+                            <i class="fa-solid fa-play"></i> Sunucuya Bağlan
+                        </a>
+                        <a href="#" onclick="copyText('connect goblin.dat.gg:26360')" aria-label="Copy">
+                            <i class="fa-solid fa-copy"></i> Adresi Kopyala
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="game-box">
-                <h2>7 days to die</h2>
-                <code id="7dtd-code1" tabindex="0" aria-label="kopyalamak için tıklayın">pypar.dathost.net:18916</code>
-            </div>            
         </div>
     </div>
 
     <script>
-        document.querySelectorAll('code').forEach(function(codeElement) {
-            codeElement.addEventListener('click', function() {
-                navigator.clipboard.writeText(this.textContent).then(() => {
-                    showCopyFeedback(this);
-                });
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Sunucu adresi kopyalandı: ' + text);
+            }).catch(err => {
+                console.error('Sunucu adresi kopyalanamadı: ', err);
             });
-            codeElement.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigator.clipboard.writeText(this.textContent).then(() => {
-                        showCopyFeedback(this);
-                    });
-                }
-            });
-        });
-    
-        function showCopyFeedback(element) {
-            // Save the original text content
-            const originalText = element.textContent;
-
-            // Replace with feedback message and apply rainbow gradient effect
-            element.innerHTML = '<span class="rainbow-text">kopyalandı!</span>';
-            
-            // Set a timeout to restore the original text and background color
-            setTimeout(() => {
-                element.innerHTML = originalText;
-                            }, 1200); // 1200 ms for a slightly slower revert
         }
-
-        // Goblin game script
-        document.addEventListener("DOMContentLoaded", function() {
-            const goblinImage = document.createElement("img");
-            goblinImage.src = "img/goblin.png";
-            goblinImage.alt = "Goblin";
-            goblinImage.style.position = "absolute";
-            goblinImage.style.width = "50px";
-            goblinImage.style.height = "50px";
-            goblinImage.style.cursor = "pointer";
-            goblinImage.style.transition = "transform 0.5s ease, left 0.5s ease, top 0.5s ease";
-            document.body.appendChild(goblinImage);
-
-            // Add audio element for cat meow
-            const meowSound = new Audio("sounds/cat-meow.mp3");
-            
-            let moveCount = 0;
-
-            function moveGoblin() {
-                const maxX = window.innerWidth - 64;
-                const maxY = window.innerHeight - 64;
-                const randomX = Math.floor(Math.random() * maxX);
-                const randomY = Math.floor(Math.random() * maxY);
-                goblinImage.style.left = `${randomX}px`;
-                goblinImage.style.top = `${randomY}px`;
-                goblinImage.style.transform = "scale(1.2)";
-                setTimeout(() => {
-                    goblinImage.style.transform = "scale(1)";
-                }, 250);
-
-                // Increment move counter
-                moveCount++;
-
-                // Play meow sound after 5 moves
-                if (moveCount >= 5) {
-                    meowSound.play();
-                    moveCount = 0; // Reset counter
-                }
-            }
-
-            goblinImage.addEventListener("click", moveGoblin);
-            goblinImage.addEventListener("mouseover", moveGoblin);
-
-            // Initial position
-            moveGoblin();
-
-            // Adjust position on window resize
-            window.addEventListener("resize", moveGoblin);
-        });
     </script>
 </body>
 </html>
