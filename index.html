@@ -187,74 +187,66 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 300px;
+            width: 500px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .notification {
-            background-color: #333;
-            color: #fff;
+            background-color: rgba(222, 155, 53, 0.9);
+            color: #1e1317;
             padding: 15px 20px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
             opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+            transform: translateX(20px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: normal;
+            border-left: 5px solid #fff44f;
+            transition: transform 0.3s, opacity 0.3s;
         }
 
-        @keyframes fadeIn {
+        .notification::before {
+            content: '\f05a';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 24px;
+            color: #1e1317;
+        }
+
+        .notification.success {
+            background-color: #31c857;
+        }
+
+        .notification.error {
+            background-color: rgba(255, 0, 0, 0.9);
+            border-left-color: #ff0000;
+        }
+
+        .notification.success::before {
+            content: '\f6be';
+        }
+
+        .notification.error::before {
+            content: '\f06a';
+        }
+
+        @keyframes slideIn {
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
 
-        @keyframes fadeOut {
+        @keyframes slideOut {
             to {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateX(20px);
             }
-        }
-
-        .dialog-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .dialog-box {
-            padding: 10px;
-            border-radius: 10px;
-            width: 400px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            background-color: #2e1d23;
-            color: #fff;
-            font-weight: 800;
-        }
-
-        .dialog-box button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #de9b35;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #1e1317;
-            font-weight: 800;
-        }
-
-        .dialog-box button:hover {
-            background-color: #ffb746;
         }
 
         @media (max-width: 600px) {
@@ -282,19 +274,18 @@
             h2 {
                 font-size: 20px;
             }
+
+            .notification-container {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="notification-container" id="notificationContainer"></div>
-    <div class="dialog-overlay" id="dialogOverlay">
-        <div class="dialog-box">
-            <p>Önce oyunu açmanız gerekiyor. Açtınız mı?</p>
-            <button onclick="closeDialog(true)">Evet</button>
-            <button onclick="closeDialog(false)">Hayır</button>
-        </div>
-    </div>
     <div class="container">
         <h1>goblin modu</h1>
         <h2>takip et</h2>
@@ -319,7 +310,7 @@
                 <div class="ip-container">
                     <code id="cs2-code">Counter-Strike 2</code>
                     <div class="hover-actions">
-                        <a href="#" onclick="openDialog()" aria-label="Play">
+                        <a href="#" onclick="copyServerAndLaunch()" aria-label="Copy and Launch">
                             <i class="fa-solid fa-play"></i> Sunucuya Bağlan
                         </a>
                         <a href="#" onclick="copyText('connect goblin.dat.gg:26360')" aria-label="Copy">
@@ -332,37 +323,73 @@
     </div>
 
     <script>
-        function copyText(text) {
+        function copyText(text, isSuccess = true) {
             navigator.clipboard.writeText(text).then(() => {
-                showNotification('Sunucu adresi kopyalandı: ' + text);
+                showNotification('Sunucu adresi kopyalandı: ' + text, isSuccess);
             }).catch(err => {
-                showNotification('Sunucu adresi kopyalanamadı: ' + text);
+                showNotification('Sunucu adresi kopyalanamadı: ' + text, false);
             });
         }
-        function showNotification(message) {
+
+        function showNotification(message, isSuccess = true) {
             const container = document.getElementById('notificationContainer');
 
             const notification = document.createElement('div');
             notification.classList.add('notification');
+            notification.classList.add(isSuccess ? 'success' : 'error');
             notification.textContent = message;
 
+            // Make notification clickable
+            notification.style.cursor = 'pointer';
+
+            // Slide in
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(20px)';
             container.appendChild(notification);
 
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
-        function openDialog() {
-            const dialog = document.getElementById('dialogOverlay');
-            dialog.style.display = 'flex';
+            // Trigger reflow to ensure transition works
+            notification.offsetWidth;
+
+            // Slide in animation
+            notification.style.transition = 'opacity 0.3s, transform 0.3s';
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(0)';
+
+            // Removal function
+            const removeNotification = () => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(20px)';
+                
+                // Remove from DOM after animation completes
+                setTimeout(() => {
+                    container.removeChild(notification);
+                }, 300);
+            };
+
+            // Schedule removal
+            const removalTimer = setTimeout(removeNotification, 4000);
+
+            // Click to dismiss
+            notification.addEventListener('click', () => {
+                clearTimeout(removalTimer);
+                removeNotification();
+            });
+
+            // Optional: Cancel removal if user hovers
+            notification.addEventListener('mouseenter', () => {
+                clearTimeout(removalTimer);
+            });
+
+            notification.addEventListener('mouseleave', () => {
+                setTimeout(removeNotification, 2000);
+            });
         }
 
-        function closeDialog(open) {
-            const dialog = document.getElementById('dialogOverlay');
-            dialog.style.display = 'none';
-            if (open) window.location.href = "steam://run/730//+connect 156.146.52.209:26360/";
+        function copyServerAndLaunch() {
+            const serverAddress = 'connect goblin.dat.gg:26360';
+            showNotification('Sunucuya ilk defa bağlanıyorsanız, oyunu önceden açmanız gerekebilir', true);
+            window.location.href = "steam://run/730//+" + serverAddress;
         }
     </script>
 </body>
-
 </html>
