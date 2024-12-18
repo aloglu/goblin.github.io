@@ -2,11 +2,13 @@
 
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <title>goblin modu</title>
     <meta name="description" content="goblin modu kanalı ile ilgili bilgiler.">
-    <meta name="keywords" content="goblin, modu, goblin modu, goblinmodu, youtube, kick, instagram, discord, counter strike, cs2, 7 days to die">
+    <meta name="keywords"
+        content="goblin, modu, goblin modu, goblinmodu, youtube, kick, instagram, discord, counter strike, cs2, 7 days to die">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="favicon.png" type="image/x-icon">
@@ -16,8 +18,8 @@
         @font-face {
             font-family: 'Croogla4F';
             src: url('fonts/Croogla4F.woff2') format('woff2'),
-                 url('fonts/Croogla4F.woff') format('woff'),
-                 url('fonts/Croogla4F.ttf') format('truetype');
+                url('fonts/Croogla4F.woff') format('woff'),
+                url('fonts/Croogla4F.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;
@@ -43,14 +45,37 @@
             margin: 0 10px;
         }
 
-        .youtube-link { color: #FF0000; }
-        .youtube-link:hover { color: #FF6666; }
-        .kick-link { color: #52E54A; }
-        .kick-link:hover { color: #85F97E; }
-        .instagram-link { color: #C13584; }
-        .instagram-link:hover { color: #E1306C; }
-        .discord-link { color: #5865F2; }
-        .discord-link:hover { color: #8F98F9; }
+        .youtube-link {
+            color: #FF0000;
+        }
+
+        .youtube-link:hover {
+            color: #FF6666;
+        }
+
+        .kick-link {
+            color: #52E54A;
+        }
+
+        .kick-link:hover {
+            color: #85F97E;
+        }
+
+        .instagram-link {
+            color: #C13584;
+        }
+
+        .instagram-link:hover {
+            color: #E1306C;
+        }
+
+        .discord-link {
+            color: #5865F2;
+        }
+
+        .discord-link:hover {
+            color: #8F98F9;
+        }
 
         h1 {
             font-size: 50px;
@@ -158,31 +183,118 @@
             display: flex;
         }
 
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        .notification {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 0.5s forwards, fadeOut 0.5s 4.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .dialog-box {
+            padding: 10px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background-color: #2e1d23;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .dialog-box button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #de9b35;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #1e1317;
+            font-weight: 800;
+        }
+
+        .dialog-box button:hover {
+            background-color: #ffb746;
+        }
+
         @media (max-width: 600px) {
             .game-section {
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
             }
+
             .game-box {
                 width: 100%;
                 padding: 15px;
             }
+
             .platform-links {
                 font-size: 14px;
                 margin-bottom: 20px;
             }
+
             h1 {
                 font-size: 36px;
                 margin-bottom: 40px;
             }
+
             h2 {
                 font-size: 20px;
             }
         }
     </style>
 </head>
+
 <body>
+    <div class="notification-container" id="notificationContainer"></div>
+    <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-box">
+            <p>Önce oyunu açmanız gerekiyor. Açtınız mı?</p>
+            <button onclick="closeDialog(true)">Evet</button>
+            <button onclick="closeDialog(false)">Hayır</button>
+        </div>
+    </div>
     <div class="container">
         <h1>goblin modu</h1>
         <h2>takip et</h2>
@@ -193,7 +305,8 @@
             <a href="https://kick.com/goblinmodu" target="_blank" class="kick-link" aria-label="Kick">
                 <i class="fa-solid fa-rocket"></i> kick
             </a>
-            <a href="https://www.instagram.com/goblinmodu" target="_blank" class="instagram-link" aria-label="Instagram">
+            <a href="https://www.instagram.com/goblinmodu" target="_blank" class="instagram-link"
+                aria-label="Instagram">
                 <i class="fab fa-instagram"></i> instagram
             </a>
             <a href="https://discord.gg/neZDWKUBqr" target="_blank" class="discord-link" aria-label="Discord">
@@ -206,7 +319,7 @@
                 <div class="ip-container">
                     <code id="cs2-code">Counter-Strike 2</code>
                     <div class="hover-actions">
-                        <a href="steam://run/730//+connect 156.146.52.209:26360/" aria-label="Play">
+                        <a href="#" onclick="openDialog()" aria-label="Play">
                             <i class="fa-solid fa-play"></i> Sunucuya Bağlan
                         </a>
                         <a href="#" onclick="copyText('connect goblin.dat.gg:26360')" aria-label="Copy">
@@ -221,11 +334,35 @@
     <script>
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('Sunucu adresi kopyalandı: ' + text);
+                showNotification('Sunucu adresi kopyalandı: ' + text);
             }).catch(err => {
-                console.error('Sunucu adresi kopyalanamadı: ', err);
+                showNotification('Sunucu adresi kopyalanamadı: ' + text);
             });
+        }
+        function showNotification(message) {
+            const container = document.getElementById('notificationContainer');
+
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.textContent = message;
+
+            container.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+        function openDialog() {
+            const dialog = document.getElementById('dialogOverlay');
+            dialog.style.display = 'flex';
+        }
+
+        function closeDialog(open) {
+            const dialog = document.getElementById('dialogOverlay');
+            dialog.style.display = 'none';
+            if (open) window.location.href = "steam://run/730//+connect 156.146.52.209:26360/";
         }
     </script>
 </body>
+
 </html>
